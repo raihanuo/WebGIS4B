@@ -72,15 +72,32 @@
     <!-- Menu -->
     <div id="MenuMap" class="boxTool" style="bottom: 10px;">
       <button type="button" class="btn btn-outline-success" title="Basemap"><i class="bi bi-globe bi-x2"></i></button>
-      <button type="button" class="btn btn-outline-success" title="Layers"><i class="bi bi-layers"></i></button>
+      <button type="button" class="btn btn-outline-success" title="Layer"><i class="bi bi-layers"></i></button>
       <button type="button" class="btn btn-outline-success" title="Pengukuran"><i class="bi bi-rulers"></i></button>
     </div>
     <!-- Basemap -->
     <div class="boxTool card col-5" id="BoxBasemap">
+    <!-- <div class="boxTool card col-5" id="BoxBasemap"> -->
       <div class="card-header" id="BoxBasemapheader">
         Basemaps
       </div>
-      <div class="card-body row" id="Basemaps">
+      <div class="card-body row" id="Basemaps"></div>
+    </div>
+    <!-- Layers -->
+    <div class="boxTool card col-5" id="BoxLayer" style="display: none;">
+      <div class="card-header" id="BoxLayerheader">
+        Layers
+      </div>
+      <div class="card-body row" id="Layer">
+        <div id="LayerTreeList"></div>
+      </div>
+    </div>
+    <!-- Pengukuran -->
+    <div class="boxTool card col-5" id="BoxPengukuran" style="display: none;">
+      <div class="card-header" id="BoxPengukuranheader">
+        Pengukuran
+      </div>
+      <div class="card-body row" id="Pengukuran">
       </div>
     </div>
   </div>
@@ -100,9 +117,15 @@
     document.getElementById("MenuMap").style.left = screen.width/2 - 100 + "px";
     document.getElementById("BoxBasemap").style.left = screen.width/2 - 300 + "px";
     document.getElementById("BoxBasemap").style.top = screen.height/2 -200 + "px";
+    document.getElementById("BoxLayer").style.left = screen.width/2 - 300 + "px";
+    document.getElementById("BoxLayer").style.top = screen.height/2 -200 + "px";
+    document.getElementById("BoxPengukuran").style.left = screen.width/2 - 300 + "px";
+    document.getElementById("BoxPengukuran").style.top = screen.height/2 -200 + "px";
 
     //mengaktifkan mode move
     dragElement(document.getElementById("BoxBasemap"));
+    dragElement(document.getElementById("BoxLayer"));
+    dragElement(document.getElementById("BoxPengukuran"));
 
     //global variabel
     var Basemap;
@@ -381,9 +404,27 @@
       })
     };
     LoadBasemap();
-    $("[title^='Basemap']").click(function() {
-      $("#BoxBasemap").toggle("easing");
-    } )
+
+    const buttons = document.querySelectorAll("#MenuMap button"),
+      boxes = document.querySelectorAll(".boxTool.card");
+    buttons.forEach((button) => {
+      $(button).attr("title") == "Basemap" && $(button).addClass("active");
+      button.addEventListener("click", () => toggleBox($(button).attr("title")))
+    })
+    function toggleBox(title) {
+      boxes.forEach((box) => {
+        const target = `[title="${box.id.substring(3, box.id.length)}"]`;
+        if (box.id == `Box${title}`) {
+          if ($(box).css("display") == "none") {
+            $(box).show(1000), $(target).addClass("active");
+          } else {
+            $(box).hide(1000), $(target).removeClass("active");
+          }
+        } else {
+          $(box).hide(1000), $(target).removeClass("active");
+        }
+      });
+    }
   </script>
 
   <!-- Vendor JS Files -->
