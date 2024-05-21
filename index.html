@@ -64,26 +64,26 @@
   </header><!-- End Header -->
   <!-- ======= Hero Section ======= -->
   <main id="main"></main>
-    <div class="hero-container">
-      <!-- Map -->
-      <div id="map" class="map"></div>
-      <!-- Koordinat -->
-      <div id="KoorInfo">Koordinat</div>
-      <!-- Menu -->
-      <div id="MenuMap" class="boxTool" style="bottom: 10px;">
-        <button type="button" class="btn btn-outline-success" title="Basemap"><i class="bi bi-globe bi-x2"></i></button>
-        <button type="button" class="btn btn-outline-success" title="Layers"><i class="bi bi-layers"></i></button>
-        <button type="button" class="btn btn-outline-success" title="Pengukuran"><i class="bi bi-rulers"></i></button>
+  <div class="hero-container">
+    <!-- Map -->
+    <div id="map" class="map"></div>
+    <!-- Koordinat -->
+    <div id="KoorInfo">Koordinat</div>
+    <!-- Menu -->
+    <div id="MenuMap" class="boxTool" style="bottom: 10px;">
+      <button type="button" class="btn btn-outline-success" title="Basemap"><i class="bi bi-globe bi-x2"></i></button>
+      <button type="button" class="btn btn-outline-success" title="Layers"><i class="bi bi-layers"></i></button>
+      <button type="button" class="btn btn-outline-success" title="Pengukuran"><i class="bi bi-rulers"></i></button>
+    </div>
+    <!-- Basemap -->
+    <div class="boxTool card col-5" id="BoxBasemap">
+      <div class="card-header" id="BoxBasemapheader">
+        Basemaps
       </div>
-      <!-- Basemap -->
-      <div class="boxTool card col-5" id="BoxBasemap">
-        <div class="card-header" id="BoxBasemapheader">
-          Basemaps
-        </div>
-        <div class="card-body row" id="Basemaps">
-        </div>
+      <div class="card-body row" id="Basemaps">
       </div>
     </div>
+  </div>
   </main><!-- End #main -->
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <script src="Lib/ol/ol.js"></script>
@@ -108,9 +108,9 @@
     var Basemap;
 
     Basemap = new ol.layer.Tile({
-          source: new ol.source.OSM(),
-          nama : "Basemap"
-        })
+      source: new ol.source.OSM(),
+      nama : "Basemap"
+    })
 
     // var map = new ol.Map({
     //   layers: [Basemap],
@@ -381,6 +381,9 @@
       })
     };
     LoadBasemap();
+    $("[title^='Basemap']").click(function() {
+      $("#BoxBasemap").toggle("easing");
+    } )
   </script>
 
   <!-- Vendor JS Files -->
