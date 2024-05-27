@@ -30,6 +30,9 @@
 				z-index: 0;
 				position: absolute;
 			}
+			.dropdown-menu {
+				margin-top: 30px;
+			}
 			#KoorInfo {
 				background-color: #555;
 				color: white;
@@ -85,20 +88,20 @@
 					</button>
 				</div>
 				<!-- Basemap -->
-				<div class="boxTool card col-5" id="BoxBasemap" style="display: none;">
+				<div class="boxTool card col-5" id="BoxBasemap" style="display: none">
 					<!-- <div class="boxTool card col-5" id="BoxBasemap"> -->
 					<div class="card-header" id="BoxBasemapheader">Basemaps</div>
 					<div class="card-body row" id="Basemaps"></div>
 				</div>
 				<!-- Layers -->
-				<div class="boxTool card col-5" id="BoxLayer" style="display: none;">
+				<div class="boxTool card col-5" id="BoxLayer" style="display: none">
 					<div class="card-header" id="BoxLayerheader">Layers</div>
 					<div class="card-body row" id="Layer">
 						<div id="LayerTreeList"></div>
 					</div>
 				</div>
 				<!-- Pengukuran -->
-				<div class="boxTool card col-5" id="BoxPengukuran" style="display: none;">
+				<div class="boxTool card col-5" id="BoxPengukuran" style="display: none" >
 					<div class="card-header" id="BoxPengukuranheader">Pengukuran</div>
 					<div class="card-body row" id="Pengukuran"></div>
 				</div>
@@ -120,20 +123,13 @@
 		<script>
 			// pengaturan posisi
 			document.getElementById("map").style.height = screen.height - 200 + "px";
-			document.getElementById("MenuMap").style.left =
-				screen.width / 2 - 100 + "px";
-			document.getElementById("BoxBasemap").style.left =
-				screen.width / 2 - 300 + "px";
-			document.getElementById("BoxBasemap").style.top =
-				screen.height / 2 - 200 + "px";
-			document.getElementById("BoxLayer").style.left =
-				screen.width / 2 - 300 + "px";
-			document.getElementById("BoxLayer").style.top =
-				screen.height / 2 - 200 + "px";
-			document.getElementById("BoxPengukuran").style.left =
-				screen.width / 2 - 300 + "px";
-			document.getElementById("BoxPengukuran").style.top =
-				screen.height / 2 - 200 + "px";
+			document.getElementById("MenuMap").style.left = screen.width / 2 - 100 + "px";
+			document.getElementById("BoxBasemap").style.left = screen.width / 2 - 300 + "px";
+			document.getElementById("BoxBasemap").style.top = screen.height / 2 - 200 + "px";
+			document.getElementById("BoxLayer").style.left = screen.width / 2 - 300 + "px";
+			document.getElementById("BoxLayer").style.top = screen.height / 2 - 200 + "px";
+			document.getElementById("BoxPengukuran").style.left = screen.width / 2 - 300 + "px";
+			document.getElementById("BoxPengukuran").style.top = screen.height / 2 - 200 + "px";
 
 			// mengaktifkan mode move
 			dragElement(document.getElementById("BoxBasemap"));
@@ -283,22 +279,23 @@
 					LayrLI.remove();
 				});
 				//-----------MOVE Z Index LAYER--------------------
-				var ZIdx = layer.getZIndex();
+				var ZIdx = eval(layer.getZIndex());
 				layer.setZIndex(ZIdx);
 				ZIdx++;
 				//------ ZOOM TO EXTEND LAYER---------------
 				var CmdMenuZoomLyr = $(layerid + "_zm");
 				CmdMenuZoomLyr.on("click", function () {
-					//map.getView().fit(layer.getExtent());
-					var extent = layer.getExtent();
+					// map.getView().fit(layer.getExtent());
+					// var extent = layer.getExtent();
+					// map.getView().fit(extent);
+					var extent = map.getView().calculateExtent(map.getSize());
 					map.getView().fit(extent);
 				});
-				//------POPUP LAYER---------------
+				//		//------POPUP LAYER---------------
 				var Elmpopup = $(layerid + "popup");
 				Elmpopup.on("change", function () {
 					layer.set("InfoPopup", this.checked);
 				});
-
 				//		//--------- MOVE UP LAYER-------------------
 				//		var CmdMenuUpLyr = $(layerid + '_Mup');
 				//	      CmdMenuUpLyr.on('click', function () {
@@ -342,11 +339,13 @@
 				if (ListLayerIndex > s) {
 					var Posisi =
 						eval(document.querySelectorAll("#layertree li").length) -
-						1 + eval(s);
+						1 +
+						eval(s);
 				} else {
 					var Posisi =
 						eval(document.querySelectorAll("#layertree li").length) -
-						1 - eval(s);
+						1 -
+						eval(s);
 				}
 				var p = document.getElementById(LyNm).id;
 				var Ly = p.replaceAll("_LI", "_NM");
@@ -435,13 +434,35 @@
 		</script>
 
 		<script>
+			const _ = document.getElementById("LayerTreeList"),
+				toggle = document.querySelectorAll(".dropdown-toggle"),
+				dropdown = document.querySelectorAll(".dropdown-menu");
+			toggle.forEach((each) =>
+				each.addEventListener("click", () => toggleDropdown(each))
+			);
+			function toggleDropdown(toggle) {
+				dropdown.forEach((each) => {
+					if (toggle.nextElementSibling == each) {
+						if ($(each).css("display") == "none") {
+							$(each).css("display", "block");
+						} else {
+							$(each).css("display", "none");
+						}
+					} else {
+						$(each).css("display", "none");
+					}
+				});
+			}
+
 			const buttons = document.querySelectorAll("#MenuMap button"),
 				boxes = document.querySelectorAll(".boxTool.card");
 			buttons.forEach((button) => {
-				localStorage.getItem("active") == null && localStorage.setItem("active", "Basemap");
+				localStorage.getItem("active") == null &&
+					localStorage.setItem("active", "Basemap");
 				if ($(button).attr("title") == localStorage.getItem("active")) {
 					$(`#Box${$(button).attr("title")}`).css("display", "flex");
-					$(button).attr("title") == localStorage.getItem("active") && $(button).addClass("active");
+					$(button).attr("title") == localStorage.getItem("active") &&
+						$(button).addClass("active");
 				}
 				button.addEventListener("click", () =>
 					toggleBox($(button).attr("title"))
@@ -452,7 +473,9 @@
 					const target = `[title="${box.id.substring(3, box.id.length)}"]`;
 					if (box.id == `Box${title}`) {
 						if ($(box).css("display") == "none") {
-							$(box).show(1000), $(target).addClass("active"), localStorage.setItem("active", title);
+							$(box).show(1000);
+							$(target).addClass("active");
+							localStorage.setItem("active", title);
 						} else {
 							$(box).hide(1000), $(target).removeClass("active");
 						}
