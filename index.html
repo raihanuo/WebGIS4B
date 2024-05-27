@@ -85,20 +85,20 @@
 					</button>
 				</div>
 				<!-- Basemap -->
-				<div class="boxTool card col-5" id="BoxBasemap">
+				<div class="boxTool card col-5" id="BoxBasemap" style="display: none;">
 					<!-- <div class="boxTool card col-5" id="BoxBasemap"> -->
 					<div class="card-header" id="BoxBasemapheader">Basemaps</div>
 					<div class="card-body row" id="Basemaps"></div>
 				</div>
 				<!-- Layers -->
-				<div class="boxTool card col-5" id="BoxLayer" style="display: none">
+				<div class="boxTool card col-5" id="BoxLayer" style="display: none;">
 					<div class="card-header" id="BoxLayerheader">Layers</div>
 					<div class="card-body row" id="Layer">
 						<div id="LayerTreeList"></div>
 					</div>
 				</div>
 				<!-- Pengukuran -->
-				<div class="boxTool card col-5" id="BoxPengukuran" style="display: none" >
+				<div class="boxTool card col-5" id="BoxPengukuran" style="display: none;">
 					<div class="card-header" id="BoxPengukuranheader">Pengukuran</div>
 					<div class="card-body row" id="Pengukuran"></div>
 				</div>
@@ -438,7 +438,11 @@
 			const buttons = document.querySelectorAll("#MenuMap button"),
 				boxes = document.querySelectorAll(".boxTool.card");
 			buttons.forEach((button) => {
-				$(button).attr("title") == "Basemap" && $(button).addClass("active");
+				localStorage.getItem("active") == null && localStorage.setItem("active", "Basemap");
+				if ($(button).attr("title") == localStorage.getItem("active")) {
+					$(`#Box${$(button).attr("title")}`).css("display", "flex");
+					$(button).attr("title") == localStorage.getItem("active") && $(button).addClass("active");
+				}
 				button.addEventListener("click", () =>
 					toggleBox($(button).attr("title"))
 				);
@@ -448,7 +452,7 @@
 					const target = `[title="${box.id.substring(3, box.id.length)}"]`;
 					if (box.id == `Box${title}`) {
 						if ($(box).css("display") == "none") {
-							$(box).show(1000), $(target).addClass("active");
+							$(box).show(1000), $(target).addClass("active"), localStorage.setItem("active", title);
 						} else {
 							$(box).hide(1000), $(target).removeClass("active");
 						}
