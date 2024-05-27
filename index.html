@@ -31,17 +31,17 @@
 				position: absolute;
 			}
 			.dropdown-menu {
-				margin-top: 30px;
+				margin-top: 2em;
 			}
 			#KoorInfo {
 				background-color: #555;
 				color: white;
-				padding: 8px 10px;
+				padding: .4em .6em;
 				border: none;
 				opacity: 0.8;
 				position: fixed;
-				bottom: 10px;
-				left: 10px;
+				bottom: .6em;
+				left: .6em;
 				width: fit-content;
 			}
 		</style>
@@ -245,7 +245,7 @@
 				$("#LayerTreeList").html(lyrTreL);
 			}
 
-			//membuat HTML list tree
+			// membuat HTML list tree
 			LoadTreLayerList();
 
 			//====================FUNGSI TREE LAYER MENU==================
@@ -288,7 +288,8 @@
 					// map.getView().fit(layer.getExtent());
 					// var extent = layer.getExtent();
 					// map.getView().fit(extent);
-					var extent = map.getView().calculateExtent(map.getSize());
+
+					var extent = [12756248.635038799, -366448.46895749343, 12756493.948122734, -366346.464688331];
 					map.getView().fit(extent);
 				});
 				//		//------POPUP LAYER---------------
@@ -325,7 +326,7 @@
 			//=== FUNGSI MEDEFINASI LAYER INDEX PADA LIST GROUP
 			$("#layertree li").mouseenter(function () {
 				ListLayerIndex = $(this).index();
-				//alert(ListLayerIndex);
+				// alert(ListLayerIndex);
 			});
 
 			//=== FUNGSI DRAG DROP LAYER POSISI ====
