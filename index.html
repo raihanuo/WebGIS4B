@@ -338,22 +338,14 @@
 
 			//=== FUNGSI DRAG DROP LAYER POSISI ====
 			function pindahZLayer(s, LyNm) {
-				var Tly =
-					eval(document.querySelectorAll("#layertree li").length) -
-					ListLayerIndex;
+				var Tly = eval(document.querySelectorAll("#layertree li").length) - ListLayerIndex;
 				// var Ly= 'layer'+(Tly-1)+'_NM';
 				// alert(" dari posis :"+ListLayerIndex+ " ke pos : "+s);
 				// alert(document.getElementById(Ly).innerHTML);
 				if (ListLayerIndex > s) {
-					var Posisi =
-						eval(document.querySelectorAll("#layertree li").length) -
-						1 +
-						eval(s);
+					var Posisi = eval(document.querySelectorAll("#layertree li").length) - 1 + eval(s);
 				} else {
-					var Posisi =
-						eval(document.querySelectorAll("#layertree li").length) -
-						1 -
-						eval(s);
+					var Posisi = eval(document.querySelectorAll("#layertree li").length) - 1 - eval(s);
 				}
 				var p = document.getElementById(LyNm).id;
 				var Ly = p.replaceAll("_LI", "_NM");
@@ -375,8 +367,7 @@
 				var coord3857 = event.coordinate;
 				var coord4326 = ol.proj.transform(coord3857, "EPSG:3857", "EPSG:4326");
 				// Target ID Objek yang menampikan
-				document.getElementById("KoorInfo").innerHTML =
-					ol.coordinate.toStringHDMS(coord4326);
+				document.getElementById("KoorInfo").innerHTML = ol.coordinate.toStringHDMS(coord4326);
 
 				if (selected !== null) {
 					selected.setStyle(undefined);
@@ -432,8 +423,7 @@
 							var p = "'" + data[i]["param"] + "'";
 							var BsMapHTML =
 								'<div class="card" style="width: 10rem;" onclick="UpdateBaseMap(' + u + "," + t + "," + p + ')"><img class="card-img-top" src="images/basemaps/' + data[i]["thumimg"] + '" alt="' + data[i]["nama"] + '"> <small class="card-title">' + data[i]["nama"] + "</small> </div></div>";
-							document.getElementById("Basemaps").innerHTML =
-								BsMapHTML + document.getElementById("Basemaps").innerHTML;
+							document.getElementById("Basemaps").innerHTML = BsMapHTML + document.getElementById("Basemaps").innerHTML;
 						}
 					},
 				});
@@ -481,9 +471,7 @@
 					const target = `[title="${box.id.substring(3, box.id.length)}"]`;
 					if (box.id == `Box${title}`) {
 						if ($(box).css("display") == "none") {
-							$(box).show(1000);
-							$(target).addClass("active");
-							localStorage.setItem("active", title);
+							$(box).show(1000), $(target).addClass("active"), localStorage.setItem("active", title);
 						} else {
 							$(box).hide(1000), $(target).removeClass("active");
 						}
