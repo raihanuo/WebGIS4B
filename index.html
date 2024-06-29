@@ -174,15 +174,9 @@
 			var BasmemapLayer;
 			var map;
 			var ZIdx = 0;
+
 			var attribution = new ol.control.Attribution({
 				collapsible: true,
-			});
-			var overlay = new ol.Overlay({
-				element: container,
-				autoPan: true,
-				autoPanAnimation: {
-					duration: 250,
-				},
 			});
 
 			Basemap = new ol.layer.Tile({
